@@ -1,0 +1,28 @@
+[INPUT]
+a
+
+[OUTPUT]
+x
+y
+
+[ENV_INIT]
+a
+
+[SYS_INIT]
+x
+y
+
+[ENV_TRANS]
+| x y
+
+[SYS_TRANS]
+| x & ! x' ! y'
+
+# Idea for multiple iterations:
+#
+#
+#        Every ENV transition must have: 1 "easily system-winning" successor and either 1 tree-successor or a state in which the system can only win by making sure that
+#        the environment assumptions are violated.
+#      
+# The winning states can *grow* by iterating (as some states in which the environment was winning earlier are now system-winning). -> We excluded this explicitly
+# by conjuncting with the old winning position set.
