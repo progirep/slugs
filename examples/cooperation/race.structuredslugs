@@ -1,0 +1,41 @@
+[INPUT]
+envCounter:0...3
+
+[OUTPUT]
+sysCounter:0...3
+betaCounter:0...3
+
+[ENV_INIT]
+envCounter = 3
+
+[SYS_INIT]
+sysCounter = 3
+betaCounter = 0
+
+[ENV_TRANS]
+
+## envCounter can decrease by at most one in every step and must not increase
+(envCounter <= envCounter' + 1) & (envCounter' <= envCounter)
+
+## envCounter must decrease unless it is set to a value of 3
+envCounter'=3 | envCounter' < envCounter
+
+## envCounter must not be set to 0 earlier than sysCounter
+envCounter = 0 | sysCounter > 0
+
+[SYS_TRANS]
+
+## sysCounter can decrease by at most one in every step and must not increase
+sysCounter <= sysCounter' + 1
+sysCounter' <= sysCounter
+
+## sysCounter must not be set to 0 earlier than envCounter
+sysCounter = 0 | envCounter > 0
+
+## BetaCounter can be incrased by at most 1 in every step
+betaCounter' <= betaCounter + 1
+
+[SYS_LIVENESS]
+sysCounter' != sysCounter | betaCounter=3 | envCounter'=0
+
+

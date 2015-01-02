@@ -155,6 +155,7 @@ OptionCombination optionCombinations[] = {
     OptionCombination("--computeWeakenedSafetyAssumptions --fixedPointRecycling --onlyRealizability --sysInitRoboticsSemantics",XComputeWeakenedSafetyAssumptions<XRoboticsSemantics<XFixedPointRecycling<GR1Context> > >::makeInstance),
     OptionCombination("--computeCNFFormOfTheSpecification --fixedPointRecycling --sysInitRoboticsSemantics",XComputeCNFFormOfTheSpecification<XFixedPointRecycling<GR1Context> >::makeInstance),
     OptionCombination("--interactiveStrategy",XInteractiveStrategy<GR1Context>::makeInstance),
+    OptionCombination("--biasForAction --interactiveStrategy",XInteractiveStrategy<XBiasForAction<GR1Context> >::makeInstance),
     OptionCombination("--IROSfastslow",XExtractExplicitStrategy<XIROSFS<GR1Context>,false,false>::makeInstance),
     OptionCombination("--jsonOutput --IROSfastslow",XExtractExplicitStrategy<XIROSFS<GR1Context>,false,true>::makeInstance),
     OptionCombination("--IROSfastslow --onlyRealizability",XIROSFS<GR1Context>::makeInstance),
@@ -187,7 +188,8 @@ OptionCombination optionCombinations[] = {
     OptionCombination("--symbolicStrategy --sysInitRoboticsSemantics --twoDimensionalCost",XExtractSymbolicStrategy<XTwoDimensionalCost<XRoboticsSemantics<GR1Context> >,false>::makeInstance),
     OptionCombination("--simpleRecovery --symbolicStrategy --sysInitRoboticsSemantics --twoDimensionalCost",XExtractSymbolicStrategy<XTwoDimensionalCost<XRoboticsSemantics<GR1Context> >,true>::makeInstance),
     OptionCombination("--cooperativeStrategy",XExtractExplicitStrategy<XCooperativeStrategy<GR1Context>,false,false>::makeInstance),
-
+    OptionCombination("--cooperativeStrategy --interactiveStrategy",XInteractiveStrategy<XCooperativeStrategy<GR1Context> >::makeInstance),
+    OptionCombination("--biasForAction --cooperativeStrategy --interactiveStrategy",XInteractiveStrategy<XCooperativeStrategy<XBiasForAction<GR1Context> > >::makeInstance)
 
     // TODO: Combination between BiasForAction and FixedPointRecycling is not supported yet but would make sense
 };

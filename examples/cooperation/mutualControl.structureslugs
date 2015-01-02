@@ -1,0 +1,22 @@
+[INPUT]
+envCounter:0...8
+envChoice:0...3
+
+[OUTPUT]
+sysCounter:0...8
+sysChoice:0...3
+
+
+[ENV_TRANS]
+envCounter' + 2 <= envCounter + sysChoice
+
+[SYS_TRANS]
+sysCounter' + 2 <= sysCounter + envChoice
+
+[ENV_INIT]
+envCounter = 5
+envChoice = 2
+
+[SYS_INIT]
+sysCounter = 5
+sysChoice = 2

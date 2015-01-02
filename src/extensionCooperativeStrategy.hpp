@@ -37,6 +37,7 @@ public:
         // Save safetyEnv, so that the old environment assumptions can be used during
         // explicit-state strategy extraction
         BF originalSafetyEnv = safetyEnv;
+        BF originalSafetySys = safetySys;
 
         // Save initial strategy
         std::vector<std::vector<std::pair<unsigned int,BF> > > dumpingData;
@@ -49,17 +50,29 @@ public:
         BF oldSafetyEnv;
         BF oldSafetySys;
 
+        unsigned int nof_iteration = 0;
         do {
             std::cerr << "Cooperative Strategy Extraction Iteration\n";
             oldSafetyEnv = safetyEnv;
             oldSafetySys = safetySys;
+            nof_iteration++;
 
-            // Make Guarantees more strict
+            // Make Guarantees more strict"
             BF oldWinningPositions = winningPositions;
+            BF winningPositionsPost = winningPositions.SwapVariables(varVectorPre,varVectorPost);
             BF nonDeadEndsEnvironment = safetyEnv.ExistAbstract(varCubePostInput).SwapVariables(varVectorPre,varVectorPost);
-            BF_newDumpDot(*this,nonDeadEndsEnvironment,NULL,"/tmp/nonDeadEndEnv.dot");
+            std::ostringstream fn1;
+            fn1 << "/tmp/nonDeadEndEnv" << nof_iteration << ".dot";
+            BF_newDumpDot(*this,nonDeadEndsEnvironment,"Post",fn1.str());
+
+            // New:
+            BF safetyEnvRestriction = (safetySys & winningPositionsPost).ExistAbstract(varCubePostOutput) & !((safetySys & nonDeadEndsEnvironment & winningPositionsPost).ExistAbstract(varCubePostOutput));
+            std::ostringstream fn2;
+            fn2 << "/tmp/safetyEnvRestriction" << nof_iteration << ".dot";
+            BF_newDumpDot(*this,safetyEnvRestriction & safetyEnv,"Pre Post",fn2.str());
+
+            safetyEnv &= !safetyEnvRestriction;
             safetySys &= nonDeadEndsEnvironment;
-            BF_newDumpDot(*this,safetySys,NULL,"/tmp/safetySysNew.dot");
 
             // strategyDumpingData.clear();
             // T::computeWinningPositions();
@@ -67,13 +80,15 @@ public:
 
             // Add the requirement that the environment must not force the system
             // to actively work towards the violation of the assumptions
-            BF niceDestinationStates = safetyEnv.ExistAbstract(varCubePostInput) & winningPositions;
-            BF_newDumpDot(*this,niceDestinationStates,NULL,"/tmp/niceDestState.dot");
+            // Old:
+            //BF niceDestinationStates = safetyEnv.ExistAbstract(varCubePostInput) & winningPositions;
+            //BF_newDumpDot(*this,niceDestinationStates,NULL,"/tmp/niceDestState.dot");
+            //BF niceDestinationTransitions = niceDestinationStates.SwapVariables(varVectorPre,varVectorPost) & safetySys;
+            //BF_newDumpDot(*this,niceDestinationTransitions,NULL,"/tmp/niceDestTrans.dot");
 
-            BF niceDestinationTransitions = niceDestinationStates.SwapVariables(varVectorPre,varVectorPost) & safetySys;
-            BF_newDumpDot(*this,niceDestinationTransitions,NULL,"/tmp/niceDestTrans.dot");
+            //BF niceDestinationTransitions =
 
-            safetyEnv &= niceDestinationTransitions.ExistAbstract(varCubePostOutput);
+            // safetyEnv &= niceDestinationTransitions.ExistAbstract(varCubePostOutput);
             BF_newDumpDot(*this,safetyEnv,NULL,"/tmp/safetyEnvNeu.dot");
 
             // BF nonDeadEndsSystem = (safetySys & oldWinningPositions.SwapVariables(varVectorPre,varVectorPost)).ExistAbstract(varCubePostOutput);
@@ -84,6 +99,8 @@ public:
             strategyDumpingData.clear();
             T::computeWinningPositions();
             dumpingData.push_back(strategyDumpingData);
+
+            // throw 7;
 
         } while ((oldSafetySys!=safetySys) || (safetyEnv!=safetyEnv));
 
@@ -115,6 +132,7 @@ public:
         // Restore old safetyEnv, so that the explicit-state strategy extraction method
         // produces transitions for all possible inputs.
         safetyEnv = originalSafetyEnv;
+        safetySys = originalSafetySys;
 
     }
 

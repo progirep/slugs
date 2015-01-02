@@ -19,26 +19,37 @@ MAX_OVERALL_NUMBER = 999999
 # The types must be numbered such that taking the minimum of different values for different bits (except for edited_by_hand) gives the correct labelling for a composite value obtained by merging the bits to an integer value. 
 CHOSEN_BY_COMPUTER = 0
 EDITED_BY_HAND = 1
-FORCED_VALUE_ASSUMPTIONS = 2
+FORCED_VALUE_ASSUMPTIONS_AND_STRATEGY = 2
 FORCED_VALUE_ASSUMPTIONS_AND_GUARANTEES = 3
-FORCED_VALUE_ASSUMPTIONS_AND_STRATEGY = 4
-
+FORCED_VALUE_ASSUMPTIONS = 4
 
 # ==================================
 # Check parameters
 # ==================================
-if len(sys.argv)<2:
+extraSlugsParameters = ""
+specFile = ""
+
+for parameter in sys.argv[1:]:
+    if parameter.startswith("-"):
+        extraSlugsParameters = extraSlugsParameters+" "+parameter
+    else:
+        if len(specFile)>0:
+            print >>sys.stderr, "Error: More than one file name given!"
+            sys.exit(1)
+        else:        
+            specFile = parameter
+if len(specFile)==0:
     print >>sys.stderr, "Error: Need Slugsin file as parameter"
     sys.exit(1)
-specFile = sys.argv[1]
 
 
 # ==================================
 # Start slugs
 # ==================================
 slugsLink = sys.argv[0][0:sys.argv[0].rfind("cursesSimulator.py")]+"../src/slugs"
-print slugsLink
-slugsProcess = subprocess.Popen(slugsLink+" --interactiveStrategy "+specFile, shell=True, bufsize=1048000, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+cmdline = slugsLink+" --interactiveStrategy "+specFile+extraSlugsParameters
+print cmdline
+slugsProcess = subprocess.Popen(cmdline, shell=True, bufsize=1048000, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
 # Get input APs
 slugsProcess.stdin.write("XPRINTINPUTS\n")
