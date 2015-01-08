@@ -1,0 +1,31 @@
+[INPUT]
+r
+c:0...5
+
+[OUTPUT]
+x
+g
+
+[ENV_INIT]
+! r
+c=3
+
+[SYS_INIT]
+! g
+! x
+
+[SYS_TRANS]
+g -> r
+
+[ENV_TRANS]
+x -> (c' = c + 1 | c'=5 & c=5 | c'=0 & c=0)
+! x -> (c = c' + 1 | c'=0 & c=0)
+c=0 -> c'=0
+
+[SYS_LIVENESS]
+g & g'
+
+[ENV_LIVENESS]
+c'>0
+r & r'
+

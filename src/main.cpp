@@ -57,6 +57,7 @@
 #include "extensionExtractSymbolicStrategy.hpp"
 #include "extensionTwoDimensionalCost.hpp"
 #include "extensionCooperativeStrategy.hpp"
+#include "extensionCooperativeGR1Strategy.hpp"
 
 //===================================================================================
 // List of command line arguments
@@ -86,7 +87,8 @@ const char *commandLineArguments[] = {
     "--computeIncompleteInformationEstimator","Computes a imcomplete-information state estimation controller.",
     "--nonDeterministicMotion","Computes a controller using an non-deterministic motion abstraction.",
     "--twoDimensionalCost","Computes a controller that optimizes for waiting and action cost at the same time.",
-    "--cooperativeStrategy","Computes a controller strategy that is cooperative with its environment"
+    "--cooperativeStrategy","Computes a controller strategy that is cooperative with its environment",
+    "--cooperativeGR1Strategy","Computes a controller strategy that is cooperative with its environment, version 2."
 };
 
 //===================================================================================
@@ -189,7 +191,12 @@ OptionCombination optionCombinations[] = {
     OptionCombination("--simpleRecovery --symbolicStrategy --sysInitRoboticsSemantics --twoDimensionalCost",XExtractSymbolicStrategy<XTwoDimensionalCost<XRoboticsSemantics<GR1Context> >,true>::makeInstance),
     OptionCombination("--cooperativeStrategy",XExtractExplicitStrategy<XCooperativeStrategy<GR1Context>,false,false>::makeInstance),
     OptionCombination("--cooperativeStrategy --interactiveStrategy",XInteractiveStrategy<XCooperativeStrategy<GR1Context> >::makeInstance),
-    OptionCombination("--biasForAction --cooperativeStrategy --interactiveStrategy",XInteractiveStrategy<XCooperativeStrategy<XBiasForAction<GR1Context> > >::makeInstance)
+    OptionCombination("--biasForAction --cooperativeStrategy --interactiveStrategy",XInteractiveStrategy<XCooperativeStrategy<XBiasForAction<GR1Context> > >::makeInstance),
+    OptionCombination("--cooperativeGR1Strategy",XExtractExplicitStrategy<XCooperativeGR1Strategy<GR1Context>,false,false>::makeInstance),
+    OptionCombination("--cooperativeGR1Strategy --interactiveStrategy",XInteractiveStrategy<XCooperativeGR1Strategy<GR1Context> >::makeInstance)
+    // Not decided whether the following combination makes sense:
+    // OptionCombination("--biasForAction --cooperativeGR1Strategy --interactiveStrategy",XInteractiveStrategy<XCooperativeGR1Strategy<XBiasForAction<GR1Context> > >::makeInstance)
+
 
     // TODO: Combination between BiasForAction and FixedPointRecycling is not supported yet but would make sense
 };
