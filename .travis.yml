@@ -48,3 +48,5 @@ matrix:
 script:
   - cd src
   - make -j2
+  - cd ..
+  - tools/testSomeExamples.py
