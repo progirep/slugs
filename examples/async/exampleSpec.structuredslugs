@@ -219,11 +219,11 @@ r1_mover1r3 = 0
 # 0 = r1_picko1'
 # r2_picko2 = 0
 # 0 = r2_picko2'
-# t1 <-> t1'
-# t2 <-> t2'
-# opsuccess'
-# ! environmentDidAction'
-# _endgroup
+t1 <-> t1'
+t2 <-> t2'
+opsuccess'
+! environmentDidAction'
+_endgroup
 
 
 # Environment can also do nothing, if wanted
@@ -259,10 +259,11 @@ rexit_ready = rexit_ready'
 # r3_mover3rexit = r3_mover3rexit'
 # r1_picko1 = r1_picko1'
 # r2_picko2 = r2_picko2'
-# t1 <-> t1'
-# t2 <-> t2'
-# opsuccess <-> opsuccess'
-# ! environmentDidAction
+t1 <-> t1'
+t2 <-> t2'
+opsuccess <-> opsuccess'
+! environmentDidAction
+! environmentDidAction'
 _endgroup
 
 # Move r2->r3
