@@ -261,7 +261,8 @@ rexit_ready = rexit_ready'
 # r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
-opsuccess <-> opsuccess'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+! opsuccess'
 ! environmentDidAction
 ! environmentDidAction'
 _endgroup
@@ -356,9 +357,10 @@ opsuccess
 
 [SYS_LIVENESS]
 # Eventually, all robots are outside and everything is picked up.
-# t1 & t2 & r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 = 0 & r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 & 
+# t1 & t2 & r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 # = 0 & r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 & 
 
-r3_ready > 0
+r1_ready = 0 
 
-# r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 = 0 & r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 
+# r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 = 0 & 
+# r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 
 # & r2_picko2=0
