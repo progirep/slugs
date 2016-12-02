@@ -125,7 +125,7 @@ public:
     SlugsException& operator<<(const double value) { message << value; return *this; }
     SlugsException& operator<<(const int value) { message << value; return *this; }
     SlugsException& operator<<(const unsigned int value) { message << value; return *this; }
-    std::string getMessage() { return message.str(); }
+    std::string getMessage() { if (message.str()=="") { return "<empty error message>"; } else return message.str(); }
 };
 
 

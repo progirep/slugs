@@ -58,6 +58,7 @@
 #include "extensionTwoDimensionalCost.hpp"
 #include "extensionCooperativeGR1Strategy.hpp"
 #include "extensionOptimisticRecovery.hpp"
+#include "extensionAsyncPartitionedTransitions.hpp"
 
 //===================================================================================
 // List of command line arguments
@@ -89,6 +90,7 @@ const char *commandLineArguments[] = {
     "--nonDeterministicMotion","Computes a controller using an non-deterministic motion abstraction.",
     "--twoDimensionalCost","Computes a controller that optimizes for waiting and action cost at the same time.",
     "--cooperativeGR1Strategy","Computes a controller strategy that is cooperative with its environment.",
+    "--asyncPartitionedTransitions","Experimental asynchronous transitions plugin"
     //-END-COMMAND-LINE-ARGUMENT-LIST
 };
 
@@ -111,7 +113,7 @@ struct OptionCombination { std::string params; GR1Context* (*factory)(std::list<
 OptionCombination optionCombinations[] = {
     //-BEGIN-OPTION-COMBINATION-LIST
     OptionCombination("",GR1Context::makeInstance),
-    OptionCombination("--IROSfastslow --explicitStrategy --jsonOutput --simpleRecovery --sysInitRoboticsSemantics",XExtractExplicitStrategy<XRoboticsSemantics<XIROSFS<GR1Context>>,true,true>::makeInstance),
+    OptionCombination("--asyncPartitionedTransitions",XAsynchronousPartitionedTransitions<GR1Context>::makeInstance),
     //-END-OPTION-COMBINATION-LIST
 };
 
