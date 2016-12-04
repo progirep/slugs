@@ -1,13 +1,13 @@
 [INPUT]
-r1_ready:0...15
-r2_ready:0...15
-r3_ready:0...15
-rexit_ready:0...15
-r1_mover1r3:0...15
-r2_mover2r3:0...15
-r3_mover3rexit:0...15
-r1_picko1:0...15
-r2_picko2:0...15
+r1_ready:0...31
+r2_ready:0...31
+r3_ready:0...31
+rexit_ready:0...31
+r1_mover1r3:0...31
+r2_mover2r3:0...31
+r3_mover3rexit:0...31
+r1_picko1:0...31
+r2_picko2:0...31
 t1
 t2
 opsuccess
@@ -16,8 +16,8 @@ _endgroup
 
 
 [ENV_INIT]
-r1_ready = 6
-r2_ready = 6
+r1_ready = 16
+r2_ready = 14
 r3_ready = 0
 rexit_ready = 0
 r1_mover1r3 = 0

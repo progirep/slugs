@@ -51,6 +51,10 @@ public:
     void testPlayerActionsForDeterminism(std::vector<BF> const &actions,std::string whichPlayer) {
         for (unsigned int i=0;i<actions.size();i++) {
 
+            if (actions.at(i).isFalse()) {
+                std::cerr << "Warning: " << whichPlayer << " action number " << i << " is FALSE" << std::endl;
+            }
+
             // Iterate over output variables to check if one has two possible values
             for (unsigned int j=0;j<postVectorOfVarBFs.size();j++) {
                 // Abstract the other variable away
@@ -106,7 +110,11 @@ public:
         while (std::getline(inFile,currentLine)) {
             lineNumberCurrentlyRead++;
             boost::trim(currentLine);
-            if ((currentLine.length()>0) && (currentLine[0]!='#')) {
+            if (currentLine.length()==0) {
+                if (currentEnvPlayerActionPartsRead || currentSysPlayerActionPartsRead) {
+                    std::cerr << "Warning: Empty line " << lineNumberCurrentlyRead << " in the middle of an action block.\n";
+                }
+            } else if (currentLine[0]!='#') {
                 if (currentLine[0]=='[') {
                     if (currentLine=="[INPUT]") {
                         readMode = 0;
@@ -256,7 +264,7 @@ public:
                             // Iterate over system player actions - check if we find an applicable one
                             BF newTargetPositions = mgr.constantFalse();
                             for (BF &a : sysPlayerActions) {
-                                newTargetPositions |= (targetPositions.SwapVariables(varVectorPre,varVectorPost) & a).ExistAbstract(varCubePost);
+                                newTargetPositions |= targetPositions.SwapVariables(varVectorPre,varVectorPost).AndAbstract(a,varCubePost);
                             }
 
                             BF_newDumpDot(*this,newTargetPositions,NULL,"/tmp/nt.dot");
@@ -264,7 +272,7 @@ public:
                             // Now check from which states every environment player actions are ok.
                             BF finalTargetPositions = mgr.constantTrue();
                             for (BF &a : envPlayerActions) {
-                                finalTargetPositions &= (newTargetPositions.SwapVariables(varVectorPre,varVectorPost) | !a).UnivAbstract(varCubePost);
+                                finalTargetPositions &= !(((!(newTargetPositions.SwapVariables(varVectorPre,varVectorPost))) & a).ExistAbstract(varCubePost));
                                 BF_newDumpDot(*this,finalTargetPositions,NULL,"/tmp/inner.dot");
                                 std::cerr << ".";
                             }
