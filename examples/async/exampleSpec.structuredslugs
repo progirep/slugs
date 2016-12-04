@@ -7,7 +7,7 @@ r1_mover1r3:0...7
 r2_mover2r3:0...7
 r3_mover3rexit:0...7
 r1_picko1:0...7
-# r2_picko2:0...7
+r2_picko2:0...7
 t1
 t2
 opsuccess
@@ -16,15 +16,15 @@ _endgroup
 
 
 [ENV_INIT]
-r1_ready = 2
+r1_ready = 4
 r2_ready = 2
-r3_ready = 2
+r3_ready = 0
 rexit_ready = 0
 r1_mover1r3 = 0
 r2_mover2r3 = 0
 r3_mover3rexit = 0
 r1_picko1 = 0
-# r2_picko2 = 0
+r2_picko2 = 0
 ! t1
 ! t2
 ! opsuccess
@@ -44,7 +44,7 @@ rexit_ready' = rexit_ready
 r2_mover2r3' = r2_mover2r3
 r3_mover3rexit' = r3_mover3rexit
 r1_picko1' = r1_picko1
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
 opsuccess'
@@ -61,7 +61,7 @@ rexit_ready' = rexit_ready
 r2_mover2r3' = r2_mover2r3
 r3_mover3rexit' = r3_mover3rexit
 r1_picko1' = r1_picko1
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
 ! opsuccess'
@@ -78,7 +78,7 @@ r2_ready' = r2_ready
 rexit_ready' = rexit_ready
 r3_mover3rexit' = r3_mover3rexit
 r1_picko1' = r1_picko1
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
 opsuccess'
@@ -95,7 +95,7 @@ r3_ready' = r3_ready
 rexit_ready' = rexit_ready
 r3_mover3rexit' = r3_mover3rexit
 r1_picko1' = r1_picko1
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
 ! opsuccess'
@@ -112,7 +112,7 @@ r1_ready' = r1_ready
 r2_ready' = r2_ready
 r3_ready' = r3_ready
 r1_picko1' = r1_picko1
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
 opsuccess'
@@ -129,7 +129,7 @@ rexit_ready' = rexit_ready
 r1_mover1r3' = r1_mover1r3
 r2_mover2r3' = r2_mover2r3
 r1_picko1' = r1_picko1
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
 ! opsuccess'
@@ -146,7 +146,7 @@ rexit_ready' = rexit_ready
 r3_mover3rexit' = r3_mover3rexit
 r1_mover1r3' = r1_mover1r3
 r2_mover2r3' = r2_mover2r3
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1'
 t2 <-> t2'
 opsuccess'
@@ -163,7 +163,7 @@ rexit_ready' = rexit_ready
 r3_mover3rexit' = r3_mover3rexit
 r1_mover1r3' = r1_mover1r3
 r2_mover2r3' = r2_mover2r3
-# r2_picko2' = r2_picko2
+r2_picko2' = r2_picko2
 t1'<-> t1
 t2 <-> t2'
 ! opsuccess'
@@ -172,37 +172,37 @@ _endgroup
 
 
 # Pick O2 success
-# r2_picko2'+2 = r2_picko2
-# r2_ready' = r2_ready+2
-# r1_ready' = r1_ready
-# r3_ready' = r3_ready
-# rexit_ready' = rexit_ready
-# r3_mover3rexit' = r3_mover3rexit
-# r1_mover1r3' = r1_mover1r3
-# r2_mover2r3' = r2_mover2r3
-# r1_picko1' = r1_picko1
-# t1'<-> t1
-# t2'
-# opsuccess'
-# environmentDidAction'
-# _endgroup
+r2_picko2'+2 = r2_picko2
+r2_ready' = r2_ready+2
+r1_ready' = r1_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r1_picko1' = r1_picko1
+t1'<-> t1
+t2'
+opsuccess'
+environmentDidAction'
+_endgroup
 
 
 # Pick O2 failure
-# r2_picko2'+2 = r2_picko2
-# r2_ready' = r2_ready+2
-# r1_ready' = r1_ready
-# r3_ready' = r3_ready
-# rexit_ready' = rexit_ready
-# r3_mover3rexit' = r3_mover3rexit
-# r1_mover1r3' = r1_mover1r3
-# r2_mover2r3' = r2_mover2r3
-# r1_picko1' = r1_picko1
-# t1'<-> t1
-# t2 <-> t2'
-# ! opsuccess'
-# environmentDidAction'
-# _endgroup
+r2_picko2'+2 = r2_picko2
+r2_ready' = r2_ready+2
+r1_ready' = r1_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r1_picko1' = r1_picko1
+t1'<-> t1
+t2 <-> t2'
+! opsuccess'
+environmentDidAction'
+_endgroup
 
 
 # Environment can set opsuccess to true if there is nothing to do
@@ -218,8 +218,8 @@ r3_mover3rexit = 0
 0 = r3_mover3rexit'
 r1_picko1 = 0
 0 = r1_picko1'
-# r2_picko2 = 0
-# 0 = r2_picko2'
+r2_picko2 = 0
+0 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
 opsuccess'
@@ -236,7 +236,7 @@ r1_mover1r3 = r1_mover1r3'
 r2_mover2r3 = r2_mover2r3'
 r3_mover3rexit = r3_mover3rexit'
 r1_picko1 = r1_picko1'
-# r2_picko2 = r2_picko2'
+r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
 ! opsuccess'
@@ -259,7 +259,7 @@ rexit_ready = rexit_ready'
 r2_mover2r3 = r2_mover2r3'
 r3_mover3rexit = r3_mover3rexit'
 r1_picko1 = r1_picko1'
-# r2_picko2 = r2_picko2'
+r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
 # Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
@@ -277,7 +277,7 @@ rexit_ready = rexit_ready'
 r1_mover1r3 = r1_mover1r3'
 r3_mover3rexit = r3_mover3rexit'
 r1_picko1 = r1_picko1'
-# r2_picko2 = r2_picko2'
+r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
 # Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
@@ -295,7 +295,7 @@ r2_ready = r2_ready'
 rexit_ready = rexit_ready'
 r1_mover1r3 = r1_mover1r3'
 r1_picko1 = r1_picko1'
-# r2_picko2 = r2_picko2'
+r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
 # Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
@@ -313,7 +313,7 @@ rexit_ready = rexit_ready'
 r1_mover1r3 = r1_mover1r3'
 r2_mover2r3 = r2_mover2r3'
 r3_mover3rexit = r3_mover3rexit'
-# r2_picko2 = r2_picko2'
+r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
 # Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
@@ -323,21 +323,22 @@ t2 <-> t2'
 _endgroup
 
 # Pick O2
-# r2_picko2' = r2_picko2+2
-# r2_ready = r2_ready'+2
-# r1_ready = r1_ready'
-# r3_ready = r3_ready'
-# rexit_ready = rexit_ready'
-# r1_mover1r3 = r1_mover1r3'
-# r2_mover2r3 = r2_mover2r3'
-# r3_mover3rexit = r3_mover3rexit'
-# r1_picko1 = r1_picko1'
-# t1 <-> t1'
-# t2 <-> t2'
+r2_picko2' = r2_picko2+2
+r2_ready = r2_ready'+2
+r1_ready = r1_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r2_mover2r3 = r2_mover2r3'
+r3_mover3rexit = r3_mover3rexit'
+r1_picko1 = r1_picko1'
+t1 <-> t1'
+t2 <-> t2'
 # Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
-# ! opsuccess'
-# ! environmentDidAction
-# _endgroup
+! opsuccess'
+! environmentDidAction
+! environmentDidAction'
+_endgroup
 
 
 # Everything stays the same template
@@ -349,7 +350,7 @@ r1_mover1r3 = r1_mover1r3'
 r2_mover2r3 = r2_mover2r3'
 r3_mover3rexit = r3_mover3rexit'
 r1_picko1 = r1_picko1'
-# r2_picko2 = r2_picko2'
+r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
 opsuccess <-> opsuccess'
@@ -365,10 +366,5 @@ opsuccess
 
 [SYS_LIVENESS]
 # Eventually, all robots are outside and everything is picked up.
-# t1 & t2 & r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 # = 0 & r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 & 
+t1 & t2 & r1_ready = 0 & r2_ready = 0 & r1_mover1r3 = 0 & r2_mover2r3 = 0 & r3_ready = 0 & r3_mover3rexit = 0 & rexit_ready > 0
 
-t1 & r1_ready = 0 & r2_ready = 0 & r1_mover1r3 = 0 & r2_mover2r3 = 0 & r3_ready = 0 & r3_mover3rexit = 0 & rexit_ready > 0
-
-# r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 = 0 & 
-# r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 
-# & r2_picko2=0
