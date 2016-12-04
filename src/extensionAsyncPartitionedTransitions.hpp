@@ -30,15 +30,46 @@ protected:
     using T::addVariable;
     using T::parseBooleanFormula;
     using T::variableNames;
+    using T::computeVariableInformation;
 
     // Actions for the two players
     std::vector<BF> envPlayerActions;
     std::vector<BF> sysPlayerActions;
 
+    SlugsVectorOfVarBFs postVectorOfVarBFs{Post, this};
+
     // Constructor
     XAsynchronousPartitionedTransitions<T>(std::list<std::string> &filenames) : T(filenames) {}
 
 public:
+
+    /**
+     * @brief Specification Debugging Hepler Function - Requires computeVariableInformation to have been called before calling it.
+     * @param actions
+     * @param whichPlayer
+     */
+    void testPlayerActionsForDeterminism(std::vector<BF> const &actions,std::string whichPlayer) {
+        for (unsigned int i=0;i<actions.size();i++) {
+
+            // Iterate over output variables to check if one has two possible values
+            for (unsigned int j=0;j<postVectorOfVarBFs.size();j++) {
+                // Abstract the other variable away
+                BF action = actions.at(i);
+                for (unsigned int k=0;k<postVectorOfVarBFs.size();k++) {
+                    if (k!=j) {
+                        action = action.ExistAbstractSingleVar(postVectorOfVarBFs[k]);
+                    }
+                }
+                action = action.UnivAbstractSingleVar(postVectorOfVarBFs[j]);
+                if (!(action.isFalse())) {
+                    std::cerr << "Note: Multiple possible output values of variable number " << j << " possible in " << whichPlayer << " action number " << i << std::endl;
+                    std::ostringstream dotFileName;
+                    dotFileName << "/tmp/" << whichPlayer << "Action" << i;
+                    BF_newDumpDot(*this,actions.at(i),NULL,dotFileName.str());
+                }
+            }
+        }
+    }
 
     void init(std::list<std::string> &filenames) {
         if (filenames.size()==0) {
@@ -175,6 +206,11 @@ public:
         if (currentEnvPlayerActionPartsRead) throw "There is an environment player action whose specification has not been terminated by '_endgroup'.";
         if (currentSysPlayerActionPartsRead) throw "There is a system player action whose specification has not been terminated by '_endgroup'.";
 
+        computeVariableInformation();
+        testPlayerActionsForDeterminism(envPlayerActions,"Environment");
+        testPlayerActionsForDeterminism(sysPlayerActions,"System");
+
+
         // Make sure that there is at least one liveness assumption and one liveness guarantee
         // The synthesis algorithm might be unsound otherwise
         if (livenessAssumptions.size()==0) livenessAssumptions.push_back(mgr.constantTrue());
@@ -238,11 +274,12 @@ public:
                         }
 
                         goodForAnyLivenessAssumption |= nu0.getValue();
-                        // BF_newDumpDot(*this,nu0.getValue(),NULL,"/tmp/nu0finalvalue.dot");
+                        BF_newDumpDot(*this,nu0.getValue(),NULL,"/tmp/nu0finalvalue.dot");
 
                     }
 
                     // Update the moddle fixed point
+                    BF_newDumpDot(*this,goodForAnyLivenessAssumption,NULL,"/tmp/gettingCloser.dot");
                     mu1.update(goodForAnyLivenessAssumption);
                 }
 
