@@ -6,7 +6,7 @@ rexit_ready:0...7
 r1_mover1r3:0...7
 r2_mover2r3:0...7
 r3_mover3rexit:0...7
-# r1_picko1:0...7
+r1_picko1:0...7
 # r2_picko2:0...7
 t1
 t2
@@ -23,7 +23,7 @@ rexit_ready = 0
 r1_mover1r3 = 0
 r2_mover2r3 = 0
 r3_mover3rexit = 0
-# r1_picko1 = 0
+r1_picko1 = 0
 # r2_picko2 = 0
 ! t1
 ! t2
@@ -43,7 +43,7 @@ r2_ready' = r2_ready
 rexit_ready' = rexit_ready
 r2_mover2r3' = r2_mover2r3
 r3_mover3rexit' = r3_mover3rexit
-# r1_picko1' = r1_picko1
+r1_picko1' = r1_picko1
 # r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
@@ -60,7 +60,7 @@ r2_ready' = r2_ready
 rexit_ready' = rexit_ready
 r2_mover2r3' = r2_mover2r3
 r3_mover3rexit' = r3_mover3rexit
-# r1_picko1' = r1_picko1
+r1_picko1' = r1_picko1
 # r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
@@ -77,7 +77,7 @@ r1_ready' = r1_ready
 r2_ready' = r2_ready
 rexit_ready' = rexit_ready
 r3_mover3rexit' = r3_mover3rexit
-# r1_picko1' = r1_picko1
+r1_picko1' = r1_picko1
 # r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
@@ -94,7 +94,7 @@ r1_ready' = r1_ready
 r3_ready' = r3_ready
 rexit_ready' = rexit_ready
 r3_mover3rexit' = r3_mover3rexit
-# r1_picko1' = r1_picko1
+r1_picko1' = r1_picko1
 # r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
@@ -111,7 +111,7 @@ r2_mover2r3' = r2_mover2r3
 r1_ready' = r1_ready
 r2_ready' = r2_ready
 r3_ready' = r3_ready
-# r1_picko1' = r1_picko1
+r1_picko1' = r1_picko1
 # r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
@@ -128,7 +128,7 @@ r2_ready' = r2_ready
 rexit_ready' = rexit_ready
 r1_mover1r3' = r1_mover1r3
 r2_mover2r3' = r2_mover2r3
-# r1_picko1' = r1_picko1
+r1_picko1' = r1_picko1
 # r2_picko2' = r2_picko2
 t1 <-> t1'
 t2 <-> t2'
@@ -138,37 +138,37 @@ _endgroup
 
 
 # Pick O1 success
-# r1_picko1'+2 = r1_picko1
-# r1_ready' = r1_ready+2
-# r2_ready' = r2_ready
-# r3_ready' = r3_ready
-# rexit_ready' = rexit_ready
-# r3_mover3rexit' = r3_mover3rexit
-# r1_mover1r3' = r1_mover1r3
-# r2_mover2r3' = r2_mover2r3
+r1_picko1'+2 = r1_picko1
+r1_ready' = r1_ready+2
+r2_ready' = r2_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
 # r2_picko2' = r2_picko2
-# t1'
-# t2 <-> t2'
-# opsuccess'
-# environmentDidAction'
-# _endgroup
+t1'
+t2 <-> t2'
+opsuccess'
+environmentDidAction'
+_endgroup
 
 
 # Pick O1 failure
-# r1_picko1'+2 = r1_picko1
-# r1_ready' = r1_ready+2
-# r2_ready' = r2_ready
-# r3_ready' = r3_ready
-# rexit_ready' = rexit_ready
-# r3_mover3rexit' = r3_mover3rexit
-# r1_mover1r3' = r1_mover1r3
-# r2_mover2r3' = r2_mover2r3
+r1_picko1'+2 = r1_picko1
+r1_ready' = r1_ready+2
+r2_ready' = r2_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
 # r2_picko2' = r2_picko2
-# t1'<-> t1
-# t2 <-> t2'
-# ! opsuccess'
-# environmentDidAction'
-# _endgroup
+t1'<-> t1
+t2 <-> t2'
+! opsuccess'
+environmentDidAction'
+_endgroup
 
 
 # Pick O2 success
@@ -216,8 +216,8 @@ r2_mover2r3 = 0
 0 = r2_mover2r3'
 r3_mover3rexit = 0
 0 = r3_mover3rexit'
-# r1_picko1 = 0
-# 0 = r1_picko1'
+r1_picko1 = 0
+0 = r1_picko1'
 # r2_picko2 = 0
 # 0 = r2_picko2'
 t1 <-> t1'
@@ -235,7 +235,7 @@ rexit_ready = rexit_ready'
 r1_mover1r3 = r1_mover1r3'
 r2_mover2r3 = r2_mover2r3'
 r3_mover3rexit = r3_mover3rexit'
-# r1_picko1 = r1_picko1'
+r1_picko1 = r1_picko1'
 # r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
@@ -258,7 +258,7 @@ r3_ready = r3_ready'
 rexit_ready = rexit_ready'
 r2_mover2r3 = r2_mover2r3'
 r3_mover3rexit = r3_mover3rexit'
-# r1_picko1 = r1_picko1'
+r1_picko1 = r1_picko1'
 # r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
@@ -276,7 +276,7 @@ r3_ready = r3_ready'
 rexit_ready = rexit_ready'
 r1_mover1r3 = r1_mover1r3'
 r3_mover3rexit = r3_mover3rexit'
-# r1_picko1 = r1_picko1'
+r1_picko1 = r1_picko1'
 # r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
@@ -294,7 +294,7 @@ r1_ready = r1_ready'
 r2_ready = r2_ready'
 rexit_ready = rexit_ready'
 r1_mover1r3 = r1_mover1r3'
-# r1_picko1 = r1_picko1'
+r1_picko1 = r1_picko1'
 # r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
@@ -305,20 +305,22 @@ t2 <-> t2'
 _endgroup
 
 # Pick O1
-# r1_picko1' = r1_picko1+2
-# r1_ready = r1_ready'+2
-# r2_ready = r2_ready'
-# r3_ready = r3_ready'
-# rexit_ready = rexit_ready'
-# r1_mover1r3 = r1_mover1r3'
-# r2_mover2r3 = r2_mover2r3'
-# r3_mover3rexit = r3_mover3rexit'
+r1_picko1' = r1_picko1+2
+r1_ready = r1_ready'+2
+r2_ready = r2_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r2_mover2r3 = r2_mover2r3'
+r3_mover3rexit = r3_mover3rexit'
 # r2_picko2 = r2_picko2'
-# t1 <-> t1'
-# t2 <-> t2'
-# opsuccess <-> opsuccess'
-# ! environmentDidAction
-# _endgroup
+t1 <-> t1'
+t2 <-> t2'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+! opsuccess'
+! environmentDidAction
+! environmentDidAction'
+_endgroup
 
 # Pick O2
 # r2_picko2' = r2_picko2+2
@@ -332,7 +334,8 @@ _endgroup
 # r1_picko1 = r1_picko1'
 # t1 <-> t1'
 # t2 <-> t2'
-# opsuccess <-> opsuccess'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+# ! opsuccess'
 # ! environmentDidAction
 # _endgroup
 
@@ -345,7 +348,7 @@ rexit_ready = rexit_ready'
 r1_mover1r3 = r1_mover1r3'
 r2_mover2r3 = r2_mover2r3'
 r3_mover3rexit = r3_mover3rexit'
-# r1_picko1 = r1_picko1'
+r1_picko1 = r1_picko1'
 # r2_picko2 = r2_picko2'
 t1 <-> t1'
 t2 <-> t2'
@@ -364,7 +367,7 @@ opsuccess
 # Eventually, all robots are outside and everything is picked up.
 # t1 & t2 & r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 # = 0 & r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 & 
 
-r1_ready = 0 & r2_ready = 0 & r1_mover1r3 = 0 & r2_mover2r3 = 0 & r3_ready = 0 & r3_mover3rexit = 0
+t1 & r1_ready = 0 & r2_ready = 0 & r1_mover1r3 = 0 & r2_mover2r3 = 0 & r3_ready = 0 & r3_mover3rexit = 0 & rexit_ready > 0
 
 # r1_ready = 0 & r2_ready = 0 & r3_ready = 0 & r1_mover1r3 = 0 & 
 # r2_mover2r3 = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 
