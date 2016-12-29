@@ -21,6 +21,7 @@ protected:
     using T::varVectorPre;
     using T::varVectorPost;
     using T::varCubePostOutput;
+    using T::varCubePre;
     using T::varCubePost;
     using T::varCubePostInput;
     using T::safetyEnv;
@@ -225,8 +226,31 @@ public:
         if (livenessGuarantees.size()==0) livenessGuarantees.push_back(mgr.constantTrue());
     }
 
+    // Optimization: Compute reachable states?
+    #define COMPUTE_REACHABLE_STATES
+
 
     void computeWinningPositions() {
+
+#ifdef COMPUTE_REACHABLE_STATES
+        BFFixedPoint reachable(initSys & initEnv);
+        for (;!reachable.isFixedPointReached();) {
+            std::cerr << "#";
+            BF newReachEnv = mgr.constantFalse();
+            for (BF &a : envPlayerActions) {
+                newReachEnv |= reachable.getValue().AndAbstract(a,varCubePre).SwapVariables(varVectorPre,varVectorPost);
+            }
+            BF newReachSys = mgr.constantFalse();
+            for (BF &a : sysPlayerActions) {
+                newReachSys |= newReachEnv.AndAbstract(a,varCubePre).SwapVariables(varVectorPre,varVectorPost);
+            }
+            reachable.update(reachable.getValue() | newReachSys);
+        }
+        std::cerr << "*";
+#endif
+
+
+
 
         // The greatest fixed point - called "Z" in the GR(1) synthesis paper
         BFFixedPoint nu2(mgr.constantTrue());
@@ -277,7 +301,11 @@ public:
                                 std::cerr << ".";
                             }
 
+#ifdef COMPUTE_REACHABLE_STATES
+                            nu0.update(finalTargetPositions & reachable.getValue());
+#else
                             nu0.update(finalTargetPositions);
+#endif
 
                         }
 
