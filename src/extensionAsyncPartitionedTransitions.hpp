@@ -29,6 +29,8 @@ protected:
     using T::winningPositions;
     using T::lineNumberCurrentlyRead;
     using T::addVariable;
+    using T::variables;
+    using T::doesVariableInheritType;
     using T::parseBooleanFormula;
     using T::variableNames;
     using T::computeVariableInformation;
@@ -36,11 +38,18 @@ protected:
     // Actions for the two players
     std::vector<BF> envPlayerActions;
     std::vector<BF> sysPlayerActions;
+    std::vector<std::pair<BFBddVarVector,BFBddVarVector>> envPlayerActionsSwapVectors; // Only swap variables that can be changed by the action
+    std::vector<std::pair<BFBddVarVector,BFBddVarVector>> sysPlayerActionsSwapVectors; // Only swap variables that can be changed by the action
 
     SlugsVectorOfVarBFs postVectorOfVarBFs{Post, this};
 
     // Constructor
     XAsynchronousPartitionedTransitions<T>(std::list<std::string> &filenames) : T(filenames) {}
+
+    // Optimization: Swap as few variables as possible.
+    #define SWAP_AS_FEW_VARIABLES_AS_POSSIBLE
+    #define COMPUTE_REACHABLE_STATES
+
 
 public:
 
@@ -74,6 +83,38 @@ public:
                 }
             }
         }
+    }
+
+
+    void computeActionSwapVectors(std::vector<BF> &playerActions, std::vector<std::pair<BFVarVector,BFVarVector>> &swapVectors) {
+        if (swapVectors.size()!=0) throw "Error: computeActionSwapVectors may only be called on empty swap vector pair vector.";
+        for (BF action : playerActions) {
+            std::vector<BF> changedPreStateBits;
+            std::vector<BF> changedPostStateBits;
+            for (unsigned int varNum = 0;varNum < variables.size();varNum++) {
+                if (doesVariableInheritType(varNum,Pre)) {
+                    if (variableNames[varNum+1]!=variableNames[varNum]+"'") throw "Error: Pre and corresponding Post variables must be allocated in succession.";
+
+#ifdef SWAP_AS_FEW_VARIABLES_AS_POSSIBLE
+                    // Check if variable must stay the same
+                    if (action == (action & !( variables[varNum] ^ variables[varNum+1] ))) {
+                        // Ok, then get rid of this requirement.
+                        action = action.ExistAbstractSingleVar(variables[varNum+1]);
+                    } else {
+                        // Well, then we need to swap variables apparently.
+                        changedPreStateBits.push_back(variables[varNum]);
+                        changedPostStateBits.push_back(variables[varNum+1]);
+                    }
+#else
+                    changedPreStateBits.push_back(variables[varNum]);
+                    changedPostStateBits.push_back(variables[varNum+1]);
+#endif
+                }
+            }
+            swapVectors.push_back(std::pair<BFVarVector,BFVarVector>(mgr.computeVarVector(changedPreStateBits),mgr.computeVarVector(changedPostStateBits)));
+        }
+
+
     }
 
     void init(std::list<std::string> &filenames) {
@@ -219,16 +260,11 @@ public:
         testPlayerActionsForDeterminism(envPlayerActions,"Environment");
         testPlayerActionsForDeterminism(sysPlayerActions,"System");
 
-
         // Make sure that there is at least one liveness assumption and one liveness guarantee
         // The synthesis algorithm might be unsound otherwise
         if (livenessAssumptions.size()==0) livenessAssumptions.push_back(mgr.constantTrue());
         if (livenessGuarantees.size()==0) livenessGuarantees.push_back(mgr.constantTrue());
     }
-
-    // Optimization: Compute reachable states?
-    #define COMPUTE_REACHABLE_STATES
-
 
     void computeWinningPositions() {
 
@@ -249,7 +285,12 @@ public:
         std::cerr << "*";
 #endif
 
+        // Compute "Swap Vectors" for the actions -- only swap variables that can change in an action. Also,
+        // this allows us to simply the transition relations for such actions
+        computeActionSwapVectors(envPlayerActions,envPlayerActionsSwapVectors);
+        computeActionSwapVectors(sysPlayerActions,sysPlayerActionsSwapVectors);
 
+        // From here onwards, the actions are modified.
 
 
         // The greatest fixed point - called "Z" in the GR(1) synthesis paper
@@ -264,7 +305,7 @@ public:
             for (unsigned int j=0;j<livenessGuarantees.size();j++) {
 
                 BF liveGoals = livenessGuarantees[j] & nu2.getValue();
-                BF_newDumpDot(*this,liveGoals,NULL,"/tmp/livegoals.dot");
+                // BF_newDumpDot(*this,liveGoals,NULL,"/tmp/livegoals.dot");
 
                 // Compute the middle least-fixed point (called 'Y' in the GR(1) paper)
                 BFFixedPoint mu1(mgr.constantFalse());
@@ -283,20 +324,22 @@ public:
                         for (;!nu0.isFixedPointReached();) {
 
                             BF targetPositions = (nu0.getValue() & !livenessAssumptions[i]) | liveGoals;
-                            BF_newDumpDot(*this,targetPositions,NULL,"/tmp/target.dot");
+                            // BF_newDumpDot(*this,targetPositions,NULL,"/tmp/target.dot");
 
                             // Iterate over system player actions - check if we find an applicable one
                             BF newTargetPositions = mgr.constantFalse();
-                            for (BF &a : sysPlayerActions) {
-                                newTargetPositions |= targetPositions.SwapVariables(varVectorPre,varVectorPost).AndAbstract(a,varCubePost);
+                            for (unsigned int i=0;i<sysPlayerActions.size();i++) {
+                                auto &a = sysPlayerActions[i];
+                                newTargetPositions |= targetPositions.SwapVariables(sysPlayerActionsSwapVectors[i].first,sysPlayerActionsSwapVectors[i].second).AndAbstract(a,varCubePost);
                             }
 
-                            BF_newDumpDot(*this,newTargetPositions,NULL,"/tmp/nt.dot");
+                            // BF_newDumpDot(*this,newTargetPositions,NULL,"/tmp/nt.dot");
 
                             // Now check from which states every environment player actions are ok.
                             BF finalTargetPositions = mgr.constantTrue();
-                            for (BF &a : envPlayerActions) {
-                                finalTargetPositions &= !(((!(newTargetPositions.SwapVariables(varVectorPre,varVectorPost))) & a).ExistAbstract(varCubePost));
+                            for (unsigned int i=0;i<envPlayerActions.size();i++) {
+                                auto &a = envPlayerActions[i];
+                                finalTargetPositions &= !(((!(newTargetPositions.SwapVariables(envPlayerActionsSwapVectors[i].first,envPlayerActionsSwapVectors[i].second))) & a).ExistAbstract(varCubePost));
                                 BF_newDumpDot(*this,finalTargetPositions,NULL,"/tmp/inner.dot");
                                 std::cerr << ".";
                             }
@@ -315,7 +358,7 @@ public:
                     }
 
                     // Update the moddle fixed point
-                    BF_newDumpDot(*this,goodForAnyLivenessAssumption,NULL,"/tmp/gettingCloser.dot");
+                    // BF_newDumpDot(*this,goodForAnyLivenessAssumption,NULL,"/tmp/gettingCloser.dot");
                     mu1.update(goodForAnyLivenessAssumption);
                 }
 
@@ -329,7 +372,7 @@ public:
 
         // We found the set of winning positions
         winningPositions = nu2.getValue();
-        BF_newDumpDot(*this,winningPositions,NULL,"/tmp/winningPositions.dot");
+        // BF_newDumpDot(*this,winningPositions,NULL,"/tmp/winningPositions.dot");
     }
 
 

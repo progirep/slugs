@@ -1,0 +1,370 @@
+[INPUT]
+r1_ready:0...15
+r2_ready:0...15
+r3_ready:0...15
+rexit_ready:0...15
+r1_mover1r3:0...15
+r2_mover2r3:0...15
+r3_mover3rexit:0...15
+r1_picko1:0...15
+r2_picko2:0...15
+t1
+t2
+opsuccess
+environmentDidAction
+_endgroup
+
+
+[ENV_INIT]
+r1_ready = 5
+r2_ready = 6
+r3_ready = 0
+rexit_ready = 0
+r1_mover1r3 = 0
+r2_mover2r3 = 0
+r3_mover3rexit = 0
+r1_picko1 = 0
+r2_picko2 = 0
+! t1
+! t2
+! opsuccess
+! environmentDidAction
+
+[ENV_TRANS]
+# ======================
+# Actions for the environment:
+# ======================
+
+# Move r1->r3 success
+r1_mover1r3'+2 = r1_mover1r3 
+r3_ready' = r3_ready+2
+r1_ready' = r1_ready
+r2_ready' = r2_ready
+rexit_ready' = rexit_ready
+r2_mover2r3' = r2_mover2r3
+r3_mover3rexit' = r3_mover3rexit
+r1_picko1' = r1_picko1
+r2_picko2' = r2_picko2
+t1 <-> t1'
+t2 <-> t2'
+opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Move r1->r3 failure
+r1_mover1r3'+2 = r1_mover1r3
+r1_ready' = r1_ready+2
+r3_ready' = r3_ready
+r2_ready' = r2_ready
+rexit_ready' = rexit_ready
+r2_mover2r3' = r2_mover2r3
+r3_mover3rexit' = r3_mover3rexit
+r1_picko1' = r1_picko1
+r2_picko2' = r2_picko2
+t1 <-> t1'
+t2 <-> t2'
+! opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Move r2->r3 success
+r2_mover2r3'+2 = r2_mover2r3
+r3_ready' = r3_ready+2
+r1_mover1r3' = r1_mover1r3
+r1_ready' = r1_ready
+r2_ready' = r2_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_picko1' = r1_picko1
+r2_picko2' = r2_picko2
+t1 <-> t1'
+t2 <-> t2'
+opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Move r2->r3 failure
+r2_mover2r3'+2 = r2_mover2r3
+r2_ready' = r2_ready+2
+r1_mover1r3' = r1_mover1r3
+r1_ready' = r1_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_picko1' = r1_picko1
+r2_picko2' = r2_picko2
+t1 <-> t1'
+t2 <-> t2'
+! opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Move r3->rExit success
+r3_mover3rexit'+2 = r3_mover3rexit
+rexit_ready' = rexit_ready+2
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r1_ready' = r1_ready
+r2_ready' = r2_ready
+r3_ready' = r3_ready
+r1_picko1' = r1_picko1
+r2_picko2' = r2_picko2
+t1 <-> t1'
+t2 <-> t2'
+opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Move r3->rExit failure
+r3_mover3rexit'+2 = r3_mover3rexit
+r3_ready' = r3_ready+2
+r1_ready' = r1_ready
+r2_ready' = r2_ready
+rexit_ready' = rexit_ready
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r1_picko1' = r1_picko1
+r2_picko2' = r2_picko2
+t1 <-> t1'
+t2 <-> t2'
+! opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Pick O1 success
+r1_picko1'+2 = r1_picko1
+r1_ready' = r1_ready+2
+r2_ready' = r2_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r2_picko2' = r2_picko2
+t1'
+t2 <-> t2'
+opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Pick O1 failure
+r1_picko1'+2 = r1_picko1
+r1_ready' = r1_ready+2
+r2_ready' = r2_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r2_picko2' = r2_picko2
+t1'<-> t1
+t2 <-> t2'
+! opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Pick O2 success
+r2_picko2'+2 = r2_picko2
+r2_ready' = r2_ready+2
+r1_ready' = r1_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r1_picko1' = r1_picko1
+t1'<-> t1
+t2'
+opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Pick O2 failure
+r2_picko2'+2 = r2_picko2
+r2_ready' = r2_ready+2
+r1_ready' = r1_ready
+r3_ready' = r3_ready
+rexit_ready' = rexit_ready
+r3_mover3rexit' = r3_mover3rexit
+r1_mover1r3' = r1_mover1r3
+r2_mover2r3' = r2_mover2r3
+r1_picko1' = r1_picko1
+t1'<-> t1
+t2 <-> t2'
+! opsuccess'
+environmentDidAction'
+_endgroup
+
+
+# Environment can set opsuccess to true if there is nothing to do
+r1_ready = r1_ready'
+r2_ready = r2_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = 0
+0 = r1_mover1r3'
+r2_mover2r3 = 0
+0 = r2_mover2r3'
+r3_mover3rexit = 0
+0 = r3_mover3rexit'
+r1_picko1 = 0
+0 = r1_picko1'
+r2_picko2 = 0
+0 = r2_picko2'
+t1 <-> t1'
+t2 <-> t2'
+opsuccess'
+! environmentDidAction'
+_endgroup
+
+
+# Environment can also do nothing, if wanted
+r1_ready = r1_ready'
+r2_ready = r2_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r2_mover2r3 = r2_mover2r3'
+r3_mover3rexit = r3_mover3rexit'
+r1_picko1 = r1_picko1'
+r2_picko2 = r2_picko2'
+t1 <-> t1'
+t2 <-> t2'
+! opsuccess'
+! environmentDidAction'
+_endgroup
+
+
+[SYS_TRANS]
+
+# ======================
+# Actions for the system
+# ======================
+
+# Move r1->r3
+r1_mover1r3' = r1_mover1r3+2
+r1_ready = r1_ready'+2
+r2_ready = r2_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r2_mover2r3 = r2_mover2r3'
+r3_mover3rexit = r3_mover3rexit'
+r1_picko1 = r1_picko1'
+r2_picko2 = r2_picko2'
+t1 <-> t1'
+t2 <-> t2'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+! opsuccess'
+! environmentDidAction
+! environmentDidAction'
+_endgroup
+
+# Move r2->r3
+r2_mover2r3' = r2_mover2r3+2
+r2_ready = r2_ready'+2
+r1_ready = r1_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r3_mover3rexit = r3_mover3rexit'
+r1_picko1 = r1_picko1'
+r2_picko2 = r2_picko2'
+t1 <-> t1'
+t2 <-> t2'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+! opsuccess'
+! environmentDidAction
+! environmentDidAction'
+_endgroup
+
+# Move r3->rexit
+r3_mover3rexit+2 = r3_mover3rexit'
+r2_mover2r3' = r2_mover2r3
+r3_ready = r3_ready'+2
+r1_ready = r1_ready'
+r2_ready = r2_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r1_picko1 = r1_picko1'
+r2_picko2 = r2_picko2'
+t1 <-> t1'
+t2 <-> t2'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+! opsuccess'
+! environmentDidAction
+! environmentDidAction'
+_endgroup
+
+# Pick O1
+r1_picko1' = r1_picko1+2
+r1_ready = r1_ready'+2
+r2_ready = r2_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r2_mover2r3 = r2_mover2r3'
+r3_mover3rexit = r3_mover3rexit'
+r2_picko2 = r2_picko2'
+t1 <-> t1'
+t2 <-> t2'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+! opsuccess'
+! environmentDidAction
+! environmentDidAction'
+_endgroup
+
+# Pick O2
+r2_picko2' = r2_picko2+2
+r2_ready = r2_ready'+2
+r1_ready = r1_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r2_mover2r3 = r2_mover2r3'
+r3_mover3rexit = r3_mover3rexit'
+r1_picko1 = r1_picko1'
+t1 <-> t1'
+t2 <-> t2'
+# Note that the system must be able to override "nothing to do, hence opsuccess" cases, hence this one sets opsuccess to false.
+! opsuccess'
+! environmentDidAction
+! environmentDidAction'
+_endgroup
+
+
+# Everything stays the same template
+r1_ready = r1_ready'
+r2_ready = r2_ready'
+r3_ready = r3_ready'
+rexit_ready = rexit_ready'
+r1_mover1r3 = r1_mover1r3'
+r2_mover2r3 = r2_mover2r3'
+r3_mover3rexit = r3_mover3rexit'
+r1_picko1 = r1_picko1'
+r2_picko2 = r2_picko2'
+t1 <-> t1'
+t2 <-> t2'
+opsuccess <-> opsuccess'
+environmentDidAction <-> environmentDidAction'
+_endgroup
+
+
+[ENV_LIVENESS]
+# The environment has to sometimes perform some actions if it can
+# and some of them have to be success actions
+# opsuccess
+! environmentDidAction
+
+[SYS_LIVENESS]
+# Eventually, all robots are outside and everything is picked up.
+t1 & t2 & r1_ready < 2 & r2_ready = 0 & r1_mover1r3 = 0 & r2_mover2r3 = 0 & r3_ready = 0 & r3_mover3rexit = 0 & r1_picko1 = 0 & r2_picko2 = 0
+
