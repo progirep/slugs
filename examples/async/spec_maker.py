@@ -8,7 +8,7 @@ REGION_CONNECTIONS = [("r1","r2"),("r1","r3"),("r3","r2"),("r3","r4"),("r4","r5"
 
 # Move Actions can have side-conditions
 MOVE_ACTIONS = [("r1","r2",[]),("r2","r3",[]),("r1","r3",[]),("r3","r2",[]),("r3","r1",[]),("r4","r3",[]),("r4","r5",["u=0"]),("r5","r4",[]),("r7","r5",["u=0 & (req1 | req2 | req3 | req4 | req5)"]),("r5","r7",[]),("r3","r4",[])]
-NOF_ROBOTS = 3
+NOF_ROBOTS = 15
 PAIRWISE_MANIPULATION_TASKS = ["r3","r4"]
 STARTING_REGION = "r1"
 
