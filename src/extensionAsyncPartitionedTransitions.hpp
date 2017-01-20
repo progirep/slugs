@@ -42,6 +42,7 @@ protected:
     std::vector<std::pair<BFBddVarVector,BFBddVarVector>> sysPlayerActionsSwapVectors; // Only swap variables that can be changed by the action
 
     SlugsVectorOfVarBFs postVectorOfVarBFs{Post, this};
+    BF invariantHint;
 
     // Constructor
     XAsynchronousPartitionedTransitions<T>(std::list<std::string> &filenames) : T(filenames) {}
@@ -138,6 +139,7 @@ public:
         initSys = mgr.constantTrue();
         safetyEnv = mgr.constantTrue();
         safetySys = mgr.constantTrue();
+        invariantHint = mgr.constantTrue();
 
         // EnvPlayer/SysPlayer-Action
         BF currentEnvPlayerAction = mgr.constantTrue();
@@ -174,6 +176,8 @@ public:
                         readMode = 6;
                     } else if (currentLine=="[SYS_LIVENESS]") {
                         readMode = 7;
+                    } else if (currentLine=="[INVARIANT_HINT]") {
+                        readMode = 8;
                     } else {
                         std::cerr << "Sorry. Didn't recognize category " << currentLine << "\n";
                         throw "Aborted.";
@@ -240,6 +244,13 @@ public:
                         //allowedTypes.insert(PostInput); -- not for this plugin
                         //allowedTypes.insert(PostOutput);
                         livenessGuarantees.push_back(parseBooleanFormula(currentLine,allowedTypes));
+                    } else if (readMode==8) {
+                        std::set<VariableType> allowedTypes;
+                        allowedTypes.insert(PreInput);
+                        allowedTypes.insert(PreOutput);
+                        allowedTypes.insert(PostInput);
+                        allowedTypes.insert(PostOutput);
+                        invariantHint &= parseBooleanFormula(currentLine,allowedTypes);
                     } else {
                         std::cerr << "Error with line " << lineNumberCurrentlyRead << "!";
                         throw "Found a line in the specification file that has no proper categorial context.";
@@ -270,6 +281,7 @@ public:
 
 #ifdef COMPUTE_REACHABLE_STATES
         BFFixedPoint reachable(initSys & initEnv);
+        // BF_newDumpDot(*this,reachable.getValue(),NULL,"/tmp/yoshizzle.dot");
         for (;!reachable.isFixedPointReached();) {
             std::cerr << "#";
             BF newReachEnv = mgr.constantFalse();
@@ -283,6 +295,7 @@ public:
             reachable.update(reachable.getValue() | newReachSys);
         }
         std::cerr << "*";
+        // BF_newDumpDot(*this,reachable.getValue(),NULL,"/tmp/reachable.dot");
 #endif
 
         // Compute "Swap Vectors" for the actions -- only swap variables that can change in an action. Also,
@@ -333,6 +346,8 @@ public:
                                 newTargetPositions |= targetPositions.SwapVariables(sysPlayerActionsSwapVectors[i].first,sysPlayerActionsSwapVectors[i].second).AndAbstract(a,varCubePost);
                             }
 
+                            newTargetPositions = newTargetPositions.minimizeUsingCareSet(invariantHint);
+
                             // BF_newDumpDot(*this,newTargetPositions,NULL,"/tmp/nt.dot");
 
                             // Now check from which states every environment player actions are ok.
@@ -345,7 +360,7 @@ public:
                             }
 
 #ifdef COMPUTE_REACHABLE_STATES
-                            nu0.update(finalTargetPositions & reachable.getValue());
+                            nu0.update((finalTargetPositions & reachable.getValue()).minimizeUsingCareSet(invariantHint));
 #else
                             nu0.update(finalTargetPositions);
 #endif

@@ -1,14 +1,19 @@
 #!/usr/bin/env python2
 #
 # Specification generator for example from the paper
-
+#
+# - Only 3 Robots in Move
+# - Only Three AUX_PROPS
+# - Clockwise motion
+#
+# 
 # Basic actions and the like
 REGIONS = ["r1","r2","r3","r4","r5","r7"]
 REGION_CONNECTIONS = [("r1","r2"),("r1","r3"),("r3","r2"),("r3","r4"),("r4","r5"),("r5","r6"),("r7","r6"),("r5","r7")]
 
 # Move Actions can have side-conditions
 MOVE_ACTIONS = [("r1","r2",[]),("r2","r3",[]),("r1","r3",[]),("r3","r2",[]),("r3","r1",[]),("r4","r3",[]),("r4","r5",["u=0"]),("r5","r4",[]),("r7","r5",["u=0 & (req1 | req2 | req3 | req4 | req5)"]),("r5","r7",[]),("r3","r4",[])]
-NOF_ROBOTS = 15
+NOF_ROBOTS = 3
 PAIRWISE_MANIPULATION_TASKS = ["r3","r4"]
 STARTING_REGION = "r1"
 
@@ -16,14 +21,14 @@ STARTING_REGION = "r1"
 # - (r1 | r2) & (r4 | r5 | r6 | r7) -> r3
 # - r3 & (r5 | r6 | r7) -> r4
 # - r4 & r7 -> r5
-COMMUNICATION_RANGE_REQUIREMENT = "((r1_ready>0 | r2_ready>0) & (r4_ready>0 | r5_ready>0 | r7_ready>0) -> r3_ready>0) & (r3_ready>0 & (r5_ready>0 | r7_ready>0) -> r4_ready>0) & (r4_ready>0 & r7_ready>0 -> r5_ready>0)"
+COMMUNICATION_RANGE_REQUIREMENT = "((r1_ready>0 | r2_ready>0) & (r4_ready>0 | r5_ready>0 | r7_ready>0) -> r3_ready>0) & (r3_ready>0 & (r5_ready>0 | r7_ready>0) -> r4_ready>0) & (r4_ready>0 & r7_ready>0 -> r5_ready>0) & (r4_ready<=4)"
 
 
 # Additional specification parts
 AUX_PROPS = ["req1","req2","req3","req4","req5"]
-AUX_INTS = [("u",0,3)]
+AUX_INTS = [("u",0,1)]
 AUX_PROPS_AND_INTS_STAY_THE_SAME = [("req1","req1<->req1'"),("req2","req2<->req2'"),("req3","req3<->req3'"),("req4","req4<->req4'"),("req5","req5<->req5'"),("u","u=u'")]
-AUX_INIT = ["!req1 & !req2 & !req3 & !req4 & !req5 & u=3"]
+AUX_INIT = ["!req1 & !req2 & !req3 & !req4 & !req5 & u=0"]
 AUX_TRANS = [(["req1"],["req1' <-> ! req1"]),(["req2"],["req2' <-> ! req2"]),(["req3"],["req3' <-> ! req3"]),(["req4"],["req4' <-> ! req4"]),(["req5"],["req5' <-> ! req5"]),(["u"],["u'+1 = u"]) ,(["u"],["u' = u+1"])]
 AUX_ENV_LIVENESS = []
 AUX_SYS_LIVENESS = ["r7_ready = "+str(NOF_ROBOTS)+" & completedTask_r3 & completedTask_r4 | req1 | req2 | req3 | req4 | req5 | u>0","! req1 | r1_ready>0 | u>0","! req2 | r2_ready>0 | u>0","! req3 | r3_ready>0 | u>0","! req4 | r4_ready>0 | u>0","! req5 | r5_ready>0 | u>0"]
@@ -293,3 +298,18 @@ for a in AUX_ENV_LIVENESS:
 print "[SYS_LIVENESS]"
 for a in AUX_SYS_LIVENESS:
     print a
+    
+    
+    
+#-------------------------- INVARIANT_HINT -------------------------
+# print "[INVARIANT_HINT]"
+# print "0",
+# for a in REGIONS:
+#     print "+"+a+"_ready",
+# for (a,b,sideconditions) in MOVE_ACTIONS:
+#     print "+ move"+a+"_"+b,
+# for a in PAIRWISE_MANIPULATION_TASKS:
+#     print "+ pairwiseTask_"+a,
+# print "= "+str(NOF_ROBOTS)
+
+
