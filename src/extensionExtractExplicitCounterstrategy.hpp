@@ -41,13 +41,8 @@ protected:
     using T::postOutputVars;
     using T::doesVariableInheritType;
 
-    XExtractExplicitCounterStrategy<T>(std::list<std::string> &filenames) : T(filenames) { (void)filenames; }
-
-public:
-
-    void init(std::list<std::string> &filenames) {
-        T::init(filenames);
-        if (filenames.size()==0) {
+    XExtractExplicitCounterStrategy<T>(std::list<std::string> &filenames) : T(filenames) {
+        if (filenames.size()==1) {
             outputFilename = "";
         } else {
             outputFilename = filenames.front();
@@ -55,6 +50,7 @@ public:
         }
     }
 
+public:
 
 /**
  * @brief Compute and print out (to stdout) an explicit-state counter strategy that is winning for
@@ -178,7 +174,7 @@ void computeAndPrintExplicitStateStrategy(std::ostream &outputStream) {
 
             // No deadlock in sight -> Do a normal transition
             BF remainingTransitions = currentPossibilities & positionalStrategiesForTheIndividualGoals[current.second.first][current.second.second];
-            assert(remainingTransition!= mgr.constantFalse());
+            assert(remainingTransitions!= mgr.constantFalse());
             remainingTransitions = determinize(remainingTransitions,postInputVars);
 
             // Switching goals
